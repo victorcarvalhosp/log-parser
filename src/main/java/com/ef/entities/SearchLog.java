@@ -25,8 +25,12 @@ public class SearchLog {
     private Integer threshold;
 
     @ManyToMany
-    @JoinTable(name = "search_logs", joinColumns = { @JoinColumn(name = "search_log_id") }, inverseJoinColumns = { @JoinColumn(name = "log_id") })
-    private List<Log> logs;
+    @JoinTable(name = "bloqued_ips", joinColumns = { @JoinColumn(name = "search_log_id") }, inverseJoinColumns = { @JoinColumn(name = "bloqued_ip_id") })
+    private List<BloquedIp> bloquedIps;
+
+    @Column(nullable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date finalDate;
 
     public Long getId() {
         return id;
@@ -60,11 +64,19 @@ public class SearchLog {
         this.threshold = threshold;
     }
 
-    public List<Log> getLogs() {
-        return logs;
+    public List<BloquedIp> getBloquedIps() {
+        return bloquedIps;
     }
 
-    public void setLogs(List<Log> logs) {
-        this.logs = logs;
+    public void setBloquedIps(List<BloquedIp> bloquedIps) {
+        this.bloquedIps = bloquedIps;
+    }
+
+    public Date getFinalDate() {
+        return finalDate;
+    }
+
+    public void setFinalDate(Date finalDate) {
+        this.finalDate = finalDate;
     }
 }
