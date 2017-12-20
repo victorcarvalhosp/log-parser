@@ -11,6 +11,10 @@ public class BloquedIp {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name="search_log_id")
+    private SearchLog searchLog;
+
     @Column(nullable=false)
     private String ip;
 
@@ -23,6 +27,14 @@ public class BloquedIp {
     public BloquedIp(String ip, Long totalRequests) {
         this.ip = ip;
         this.totalRequests = totalRequests;
+    }
+
+    public SearchLog getSearchLog() {
+        return searchLog;
+    }
+
+    public void setSearchLog(SearchLog searchLog) {
+        this.searchLog = searchLog;
     }
 
     public Long getId() {

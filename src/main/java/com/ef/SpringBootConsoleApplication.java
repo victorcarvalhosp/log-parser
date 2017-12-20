@@ -42,10 +42,7 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
         logService.importAllLogToDatabase();
 
         if (args.length > 0 ) {
-           // System.out.println(helloService.getMessage(args[0].toString()));
             searchLogService.searchLogsByArgs(args);
-
-        }else{
         }
 
         exit(0);

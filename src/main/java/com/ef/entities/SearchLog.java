@@ -11,6 +11,7 @@ import java.util.List;
 public class SearchLog {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable=false)
@@ -24,8 +25,7 @@ public class SearchLog {
     @Column
     private Integer threshold;
 
-    @ManyToMany
-    @JoinTable(name = "bloqued_ips", joinColumns = { @JoinColumn(name = "search_log_id") }, inverseJoinColumns = { @JoinColumn(name = "bloqued_ip_id") })
+    @OneToMany(mappedBy = "searchLog", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<BloquedIp> bloquedIps;
 
     @Column(nullable=false)

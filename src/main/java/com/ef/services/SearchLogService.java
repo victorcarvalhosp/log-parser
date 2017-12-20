@@ -3,6 +3,7 @@ package com.ef.services;
 import com.ef.entities.BloquedIp;
 import com.ef.entities.SearchLog;
 import com.ef.enums.DurationEnum;
+import com.ef.repositories.SearchLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class SearchLogService {
 
     @Autowired
     private LogService logService;
+
+    @Autowired
+    private SearchLogRepository repository;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd.HH:mm:ss");
     private static final String START_DATE_PARAM = "startDate";
@@ -52,7 +56,15 @@ public class SearchLogService {
             }
             searchLog.setFinalDate(calculateFinalDateBasedOnDurationParam(searchLog.getStartDate(), searchLog.getDuration()));
 
-            List<BloquedIp> logs = logService.findBloquedIpsByDateAndThreshold(searchLog);
+            List<BloquedIp> bloquedIps = logService.findBloquedIpsByDateAndThreshold(searchLog);
+            for (BloquedIp bloquedIp: bloquedIps) {
+                bloquedIp.setSearchLog(searchLog);
+                bloquedIp.setComments("Ip " + bloquedIp.getIp() + " blocked because has mora than " + searchLog.getThreshold() + " requests between " + dateFormat.format(searchLog.getStartDate()) + " and " + dateFormat.format(searchLog.getFinalDate()));
+                System.out.println(bloquedIp.getComments());
+            }
+            searchLog.setBloquedIps(bloquedIps);
+            repository.save(searchLog);
+
             System.out.println(searchLog);
         } catch (ParseException e) {
             e.printStackTrace();
