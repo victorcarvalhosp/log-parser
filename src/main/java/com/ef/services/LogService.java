@@ -23,25 +23,37 @@ public class LogService {
     private static final int LOG_REQUEST_POSITION = 2;
     private static final int LOG_STATUS_POSITION = 3;
     private static final int LOG_USER_AGENT_POSITION = 4;
+    private static final String ACCESS_LOG_PARAM = "accesslog";
 
-    private static final String LOG_FILE_LOCATION = "src/main/resources/access.log";
+    private static final String DEFAULT_LOG_FILE_LOCATION = "src/main/resources/access.log";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+    private String fileLocation;
 
     @Autowired
     private LogRepository logRepository;
 
-    public void importAllLogToDatabase() {
+    public void importAllLogToDatabase(String[] args) {
         try {
-            if (logRepository.count() == 0) {
-                saveLogsToDatabase();
+            for (String arg : args) {
+                String[] properties = arg.split("=");
+                if (properties[0].toLowerCase().contains(ACCESS_LOG_PARAM.toLowerCase())) {
+                    fileLocation = properties[1];
+                    break;
+                }
             }
+            if(fileLocation == null){
+                fileLocation = DEFAULT_LOG_FILE_LOCATION;
+            }
+
+            saveLogsToDatabase();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void saveLogsToDatabase() throws IOException, ParseException {
-        BufferedReader b = new BufferedReader(new FileReader(LOG_FILE_LOCATION));
+        BufferedReader b = new BufferedReader(new FileReader(fileLocation));
         String readLine = "";
         System.out.println("Reading file using Buffered Reader");
         while ((readLine = b.readLine()) != null) {

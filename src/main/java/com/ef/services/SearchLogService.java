@@ -28,6 +28,7 @@ public class SearchLogService {
     private static final String DURATION_PARAM = "duration";
     private static final String THRESHOLD_PARAM = "threshold";
 
+
     private Date calculateFinalDateBasedOnDurationParam(Date startDate, DurationEnum duration) {
         LocalDateTime ldt = LocalDateTime.ofInstant(startDate.toInstant(), ZoneId.systemDefault());
         if (DurationEnum.HOURLY.equals(duration)) {
@@ -64,8 +65,6 @@ public class SearchLogService {
             }
             searchLog.setBloquedIps(bloquedIps);
             repository.save(searchLog);
-
-            System.out.println(searchLog);
         } catch (ParseException e) {
             e.printStackTrace();
         }

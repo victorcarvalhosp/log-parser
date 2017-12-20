@@ -1,7 +1,6 @@
 package com.ef.entities;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name="bloqued_ip")

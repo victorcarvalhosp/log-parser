@@ -1,6 +1,5 @@
 package com.ef;
 
-import com.ef.entities.SearchLog;
 import com.ef.services.LogService;
 import com.ef.services.SearchLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +7,6 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static java.lang.System.exit;
 
@@ -39,9 +35,9 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        logService.importAllLogToDatabase();
 
         if (args.length > 0 ) {
+            logService.importAllLogToDatabase(args);
             searchLogService.searchLogsByArgs(args);
         }
 
