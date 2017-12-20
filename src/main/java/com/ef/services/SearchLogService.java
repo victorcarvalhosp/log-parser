@@ -60,7 +60,7 @@ public class SearchLogService {
             List<BloquedIp> bloquedIps = logService.findBloquedIpsByDateAndThreshold(searchLog);
             for (BloquedIp bloquedIp: bloquedIps) {
                 bloquedIp.setSearchLog(searchLog);
-                bloquedIp.setComments("Ip " + bloquedIp.getIp() + " blocked because has mora than " + searchLog.getThreshold() + " requests between " + dateFormat.format(searchLog.getStartDate()) + " and " + dateFormat.format(searchLog.getFinalDate()));
+                bloquedIp.setComments("Ip " + bloquedIp.getIp() + " blocked because has more than " + searchLog.getThreshold() + " requests between " + dateFormat.format(searchLog.getStartDate()) + " and " + dateFormat.format(searchLog.getFinalDate()));
                 System.out.println(bloquedIp.getComments());
             }
             searchLog.setBloquedIps(bloquedIps);
